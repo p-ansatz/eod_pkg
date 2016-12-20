@@ -26,7 +26,7 @@ class HS_Interface():
 		self.r = rospy.get_param('~r',0.031) # Raggio ruota
 		self.v_min = rospy.get_param('~v_min',0.8) # Tensione minima motore
 		self.v_max = rospy.get_param('~v_max',7.0) # Tensione massima motore
-		self.n_vel_array = rospy.get_param('~n_vel_array',3) # Dimensione vettore velocita' media
+		self.n_vel_array = rospy.get_param('~n_vel_array',5) # Dimensione vettore velocita' media
 
 		# Inizializzazione variabili interne
 		self.dir_dx = 1 # Direzione rotazione ruota destra [1=avanti]
@@ -107,6 +107,7 @@ class HS_Interface():
 		odom_tick_sx = 0
 
 		vel = np.mean(self.vel_array_dx)
+	
 
 		return VelRuotaResponse(vel*self.dir_dx)
 
@@ -116,7 +117,7 @@ class HS_Interface():
 		global tick_sx
 
 		dt = request.dt
-
+		print tick_sx
 		m = (tick_sx*(2*pi*self.r))/self.n_tick
 		vel = m/dt
 		tick_sx = 0
