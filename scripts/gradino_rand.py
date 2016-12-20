@@ -7,17 +7,17 @@ from eod_pkg.srv import VelRuota,VelRuotaRequest,VelRuotaResponse
 
 rospy.init_node('questo')
 
-fc = rospy.get_param('~fc',30)
+fc = rospy.get_param('~fc',10)
 rc = rospy.Rate(fc)
 
 t_old = rospy.Time.now()
 
-rospy.wait_for_service('vel_encoder_sx')
-encoder = rospy.ServiceProxy('vel_encoder_sx',VelRuota)
+rospy.wait_for_service('vel_encoder_dx')
+encoder = rospy.ServiceProxy('vel_encoder_dx',VelRuota)
 
-pub = rospy.Publisher('motor_cmd_sx', Float32, queue_size=10)
+pub = rospy.Publisher('motor_cmd_dx', Float32, queue_size=10)
 
-i=1.0
+i=1.5
 while not rospy.is_shutdown():
 
 	pub.publish(i)
