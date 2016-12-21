@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -130,17 +131,16 @@ include_directories(
 # add_dependencies(eod_pkg ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(eod_pkg_node src/eod_pkg_node.cpp)
+add_executable(tf_broadcaster src/tf_broadcaster.cpp)
+add_executable(odo src/odo.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(eod_pkg_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(eod_pkg_node
-#   ${catkin_LIBRARIES}
-# )
-
+target_link_libraries( tf_broadcaster ${catkin_LIBRARIES} )
+target_link_libraries( odo ${catkin_LIBRARIES} )
 #############
 ## Install ##
 #############
