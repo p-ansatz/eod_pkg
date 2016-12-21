@@ -39,18 +39,5 @@ void odom::findTotal(void)
 
 int main()
 {
-	string entered;
-	int length;
 	
-	cout << "How many hours were you parked: ";
-	cin >> entered;
-	stringstream(entered) >> length;
-	
-	odom
- total(length);
-	total.findTotal();
-	
-	system("pause");
-
-	return 0;	
 }
