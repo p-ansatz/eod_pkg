@@ -26,7 +26,7 @@ class Odometria():
 		rospy.Subscriber('tick_ruote', Ticks, self.tick_callback)
 		self.pub_posa = rospy.Publisher('posa', Posa, queue_size=10)
 
-	def spin(self):
+	def start(self):
 		rospy.spin()
 
 	def tick_callback(self, tick):
@@ -55,4 +55,4 @@ class Odometria():
 
 if __name__=='__main__':
 	odom = Odometria()
-	odom.spin()
+	odom.start()
