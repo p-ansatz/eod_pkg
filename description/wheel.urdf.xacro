@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot name="wheel" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <!-- Wheels -->
+  <property name="wheel_radius" value="0.04" /> 
+  <property name="wheel_height" value="0.02" />
+  
+  <property name="base_x_origin_to_wheel_origin" value="0.25" />
+  <property name="base_y_origin_to_wheel_origin" value="0.3" />
+  <property name="base_z_origin_to_wheel_origin" value="0.0" />
+  
+  
+  <xacro:macro name="wheel" params="lr parent translateX translateY flipY"> <!--fb : front, back ; lr: left, right -->
+    <link name="${lr}_wheel">
+      <visual>
+        <origin xyz="0 0 0" rpy="${flipY*M_PI/2} 0  0 " /> 
+        <geometry>
+          <cylinder length="${wheel_height}" radius="${wheel_radius}" />
+        </geometry>
+        <material name="DarkGray" />
+      </visual>
+    </link>
+
+    <joint name="${lr}_wheel_joint" type="continuous">
+      <parent link="${parent}"/>
+      <child link="$${lr}_wheel"/>
+      <origin xyz="${translateX * base_x_origin_to_wheel_origin} ${translateY * base_y_origin_to_wheel_origin} ${base_z_origin_to_wheel_origin}" rpy="0 0 0" /> 
+      <axis xyz="0 1 0" rpy="0 0 0" />
+      <limit effort="100" velocity="100"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+    </joint>
+
+  </xacro:macro>
+</robot>
