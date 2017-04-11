@@ -11,6 +11,9 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   tf
+  rviz
+  urdf
+  xacro
 )
 
 ## System dependencies are found with CMake's conventions
@@ -49,16 +52,15 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
    FILES
-   Ticks.msg
    Wheels_Vel.msg
 )
 
 ## Generate services in the 'srv' folder
- add_service_files(
-   FILES
-   VelRuota.srv
+# add_service_files(
+#  FILES
+   
 #   Service2.srv
- )
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
