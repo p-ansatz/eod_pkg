@@ -124,21 +124,20 @@
   <!-- SENSORS -->
   
   <!-- Kinect -->
-
   <link name="kinect_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <box size="${hokuyo_size} ${hokuyo_size} ${hokuyo_size}"/>
+        <box size="${kinect_length} ${kinect_height} ${kinect_width}"/>
       </geometry>
       <material name="Blue" />
     </visual>
   </link>
   
   <joint name="hokuyo_joint" type="fixed">
-    <origin xyz="${base_radius - hokuyo_size/2} 0 ${base_height+hokuyo_size/4}" rpy="0 0 0" />
+    <origin xyz="${base_radius - kinect_length/2} 0 ${base_height+kinect_height/4}" rpy="0 0 0" />
     <parent link="base_link"/>
-    <child link="hokuyo_link" />
+    <child link="kinect_link" />
   </joint>
 
 </robot>
