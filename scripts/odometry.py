@@ -49,12 +49,12 @@ class Odometry():
 	def loop(self):
 		while not rospy.is_shutdown():
 
-			update_pose()
+			self.update_pose()
 
 			# le velocita' vx,vy,vth vengono aggiornate nella callback
 			# del subscriber al topic eod/wheels_vel
 
-			publish_odom()
+			self.publish_odom()
 
 			self.rate.sleep()
 
@@ -132,5 +132,7 @@ class Odometry():
 		self.vth = (vr-vl)/l
 
 
-
+if __name__ == '__main__':
+    odo = Odometry()
+    odo.loop()
 

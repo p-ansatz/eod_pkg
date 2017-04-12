@@ -16,7 +16,7 @@ class MotorController():
 		# parametri pid dx
 		self.kp_dx = rospy.get_param('eod/pid_dx/Kp') 
 		self.ki_dx = rospy.get_param('eod/pid_dx/Ki') 
-		self.kd_dx = rospy.get_param('eod/pid_dx/Kd') 
+		self.kd_dx = rospy.get_param('eod/pid_dx/Kd')
 		self.vMin_dx = rospy.get_param('eod/pid_dx/vMin') 
 		self.vMax_dx = rospy.get_param('eod/pid_dx/vMax') 
 
@@ -75,9 +75,9 @@ class MotorController():
 		return dt
 
 	def saturation(self, v_input, sign):
-		# se l'input da fornire al motore è opposto alla direzione di marcia
+		# se l'input da fornire al motore e' opposto alla direzione di marcia
 		# si preferisce fornire una tensione nulla
-		if ((sign > 0) and (v_input < 0)) or ((sign < 0) and (v_input > 0)) 
+		if ((sign > 0) and (v_input < 0)) or ((sign < 0) and (v_input > 0)):
 			v_input = 0.0
 		
 	def publish_motor_cmd(self, v_input_dx, v_input_sx):
@@ -95,4 +95,9 @@ class MotorController():
 	def wheels_velocity_callback(self, msg):
 		self.v_dx = msg.right
 		self.v_sx = msg.left
+
+
+if __name__ == '__main__':
+	mc = MotorController()
+	mc.loop()
 

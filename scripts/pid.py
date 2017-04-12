@@ -17,7 +17,7 @@ class PID():
 		self.derivate = 0.0
 
 	def calculate( self, measurement, ref, dt ):
-	""" ritorna una tensione V tra Vmin e Vmax  """	
+	#""" ritorna una tensione V tra Vmin e Vmax  """
 		err = ref - measurement
 
 		# arresto
@@ -48,17 +48,17 @@ class PID():
 
 	def saturation(self, v_input, err, dt):
 		vSat = self.vMax-self.vMin
-		if v_input > vSat :
+		if (v_input > vSat):
 			v_input = vSat
 			update_integral(-err, dt) # annullamento dell'ultimo accumulo dell'integrale
 		
-		elif v_input < -vSat:
+		elif (v_input < -vSat):
 			v_input = -vSat
 			update_integral(-err, dt) # annullamento dell'ultimo accumulo dell'integrale
 			
-		if v_input > 0.0 
+		if (v_input > 0.0):
 			return v_input + self.vMin
-		elif v_input < 0.0
+		elif (v_input < 0.0):
 			return v_input - self.vMin
 
 	def reset(self):

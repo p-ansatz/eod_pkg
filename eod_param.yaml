@@ -5,8 +5,8 @@ eod:
   pid_sx: {Kd: 0, Ki: 8, Kp: 4, v_max: 7, v_min: 0}
   tf:
     base_kinect: {dx: 0.05, dy: 0.0, dz: 0.06, roll: 0, pitch: 0, yaw: 0}
-  loop_freq: {wheels_vel: 0.1, odom: 0.1, pid: 0.1, motor_ctrl: 0.1, default: 1}
-  pin: {pin_enc_dx: 2, pin_enc_sx: 3, pin_motor_dx_f: 19, pin_motor_dx_b: 26, pin_motor_sx_f: 6, pin_motor_sx_b: 13}
+  loop_freq: {wheels_vel: 30, odom: 20, pid: 0.1, motor_ctrl: 0.1, default: 1}
+  pin: {pin_enc_dx: 8, pin_enc_sx: 7, pin_motor_dx_f: 12, pin_motor_dx_b: 16, pin_motor_sx_f: 20, pin_motor_sx_b: 21}
 # /////////////////// PHYSICS /////////////////////////
 # l distanza tra le due ruote
 # r raggio ruote
