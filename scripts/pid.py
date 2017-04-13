@@ -21,19 +21,19 @@ class PID():
 		err = ref - measurement
 
 		# arresto
-		if(self.ref == 0.0):
-			reset()
+		if(ref == 0.0):
+			self.reset()
 			return 0.0 # tensione nulla
 
-		update_integral(err, dt)
+		self.update_integral(err, dt)
 
-		update_derivate(err, dt)
+		self.update_derivate(err, dt)
 
 		# calcolo azione di controllo
-		v_input =  (self.Kp * err) + (self.Ki * self.integrale) + (self.Kd * self.derivata)
+		v_input =  (self.Kp * err) + (self.Ki * self.integral) + (self.Kd * self.derivate)
 
 		# saturatore
-		v_input = saturation(v_input, err, dt)
+		v_input = self.saturation(v_input, err, dt)
 		
 		# aggiornamento dell'errore
 		self.err_old = err
@@ -50,11 +50,11 @@ class PID():
 		vSat = self.vMax-self.vMin
 		if (v_input > vSat):
 			v_input = vSat
-			update_integral(-err, dt) # annullamento dell'ultimo accumulo dell'integrale
+			self.update_integral(-err, dt) # annullamento dell'ultimo accumulo dell'integrale
 		
 		elif (v_input < -vSat):
 			v_input = -vSat
-			update_integral(-err, dt) # annullamento dell'ultimo accumulo dell'integrale
+			self.update_integral(-err, dt) # annullamento dell'ultimo accumulo dell'integrale
 			
 		if (v_input > 0.0):
 			return v_input + self.vMin

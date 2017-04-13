@@ -25,7 +25,7 @@ class WheelsVelSensor():
         self.tick_encoder = rospy.get_param('/eod/physics/n_tick', 20) # numero tick encoder
 
         # dimensione dei vettori fifo
-        self.n = 5
+        self.n = 10
 
         # ------ VARIABILI ------
         self.tick_dx = 0
