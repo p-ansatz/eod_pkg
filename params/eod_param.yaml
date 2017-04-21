@@ -1,6 +1,6 @@
 eod:
-  hs_interface: {fc: 50, n_tick: 20, r: 0.033, v_max: 7, v_min: 0}
-  physics: {l: 0.135, r: 0.033, n_tick: 20}
+  hs_interface: {fc: 50, n_tick: 40, r: 0.033, v_max: 7, v_min: 0}
+  physics: {l: 0.135, r: 0.033, n_tick: 40}
   pid_dx: {Kd: 0, Ki: 8, Kp: 4, v_max: 7, v_min: 0}
   pid_sx: {Kd: 0, Ki: 8, Kp: 4, v_max: 7, v_min: 0}
   #tf:

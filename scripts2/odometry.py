@@ -67,16 +67,19 @@ class Odometry():
 		self.tick_sx = 0
 
 		if nr == nl:
-			self.x = self.x - self.step*nr*cos(self.th)
+			# se il dual drive va indietro nr diventa negativo
+			# quindi non c'è bisogno di sottrarre pi radianti 
+			# all'angolo theta.
+			self.x = self.x + self.step*nr*cos(self.th)
 			self.y = self.y + self.step*nr*sin(self.th)
 			#self.th = self.th
 		else:
-			k1 = ((self.l/2.0)*(nr+nl))/(nr-nl)
-			k2 = (self.step/self.l)*(nr-nl)
+			R = (self.l/2.0) * ((nr+nl)/(nr-nl) # distanza da ICC al centro dell'asse delle ruote
+			wdt = (self.step/self.l)*(nr-nl)   # theta' = theta + w*dt, omega:=w
 
-			self.x = self.x - k1*sin(self.th) + k1*sin(self.th+k2)
-			self.y = self.y + k1*cos(self.th) - k1*cos(self.th+k2)
-			self.th = self.th + k2
+			self.x = self.x - R*sin(self.th) + R*sin(self.th+wdt)
+			self.y = self.y + R*cos(self.th) - R*cos(self.th-wdt)
+			self.th = self.th + wdt
 
 
 	def publish_odom(self):
