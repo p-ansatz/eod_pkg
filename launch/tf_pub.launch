@@ -1,6 +1,8 @@
 <launch>
 
-	<!-- Params -->
 	<rosparam command="load" file="$(find eod_pkg)/params/eod_param.yaml" />
+
+	<node  pkg="eod_pkg" type="tf_broadcaster" name="tf_broadcaster"
+	 ns="eod" />
 
 </launch>

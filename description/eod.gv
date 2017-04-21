@@ -1,0 +1,29 @@
+digraph G {
+node [shape=box];
+"base_footprint" [label="base_footprint"];
+"base_link" [label="base_link"];
+"caster_link" [label="caster_link"];
+"left_wheel" [label="left_wheel"];
+"right_wheel" [label="right_wheel"];
+"tower_link" [label="tower_link"];
+"camera_link" [label="camera_link"];
+"camera_rgb_frame" [label="camera_rgb_frame"];
+"camera_rgb_optical_frame" [label="camera_rgb_optical_frame"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_footprint" -> "base_footprint_joint" [label="xyz: 0 0 0.033 \nrpy: 0 -0 0"]
+"base_footprint_joint" -> "base_link"
+"base_link" -> "caster_joint" [label="xyz: -0.115 0 0 \nrpy: 0 -0 0"]
+"caster_joint" -> "caster_link"
+"base_link" -> "left_wheel_joint" [label="xyz: 0 -0.06 0 \nrpy: 0 -0 0"]
+"left_wheel_joint" -> "left_wheel"
+"base_link" -> "right_wheel_joint" [label="xyz: 0 0.06 0 \nrpy: 0 -0 0"]
+"right_wheel_joint" -> "right_wheel"
+"base_link" -> "tower_joint" [label="xyz: -0.1185 0 0.1575 \nrpy: 0 -0 0"]
+"tower_joint" -> "tower_link"
+"tower_link" -> "camera_joint" [label="xyz: 0 0 0.1475 \nrpy: 0 -0 0"]
+"camera_joint" -> "camera_link"
+"camera_link" -> "camera_rgb_joint" [label="xyz: 0.031 -0.0125 0.016 \nrpy: 0 -0 0"]
+"camera_rgb_joint" -> "camera_rgb_frame"
+"camera_rgb_frame" -> "camera_rgb_optical_joint" [label="xyz: 0 0 0 \nrpy: -1.5708 -5.55112e-17 -1.5708"]
+"camera_rgb_optical_joint" -> "camera_rgb_optical_frame"
+}

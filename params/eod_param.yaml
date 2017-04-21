@@ -1,0 +1,14 @@
+eod:
+  hs_interface: {fc: 50, n_tick: 40, r: 0.033, v_max: 7, v_min: 0}
+  physics: {l: 0.135, r: 0.033, n_tick: 40}
+  pid_dx: {Kd: 0, Ki: 5.40, Kp: 0, v_max: 7, v_min: 2.8}
+  pid_sx: {Kd: 0, Ki: 4.97, Kp: 0, v_max: 7, v_min: 2.8}
+  #tf:
+  # base_kinect: {dx: 0.05, dy: 0.0, dz: 0.06, roll: 0, pitch: 0, yaw: 0}
+  loop_freq: {wheels_vel: 60, odom: 20, motor_ctrl: 10, default: 1}
+  pin: {pin_enc_dx: 8, pin_enc_sx: 7, pin_motor_dx_f: 12, pin_motor_dx_b: 16, pin_motor_sx_f: 20, pin_motor_sx_b: 21}
+# /////////////////// PHYSICS /////////////////////////
+# l distanza tra le due ruote
+# r raggio ruote
+# h1 altezza primo piatto
+# h2 altezza secondo piatto

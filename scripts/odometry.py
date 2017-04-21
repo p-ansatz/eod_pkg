@@ -3,26 +3,28 @@
 import rospy
 import tf
 
+from math import pi, cos, sin
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import TransformStamped
+from eod_pkg.msg import Wheels_Vel
+from std_msgs.msg import Byte
 
 
+class OdometryClass():
 
-class Odometry():
+	def __init__(self):
 
-	def __init__(self, frequency):
-
-		rospy.init_node("eod/odometry")
+		rospy.init_node("odometry")
 
 		# ------ PARAMETRI ------
 		# frequenza del loop 
-		self.freq = rospy.get_param('eod/loop_freq/odom', 0.1)
+		self.freq = rospy.get_param('eod/loop_freq/odom')
 		self.rate = rospy.Rate(self.freq)
 
 		# parametri fisici
-		self.l = rospy.get_param('eod/physics/l',0.1) # distanza tra ruote
-		self.r = rospy.get_param('eod/physics/r',0.1) # raggio ruota
-		self.tick_encoder = rospy.get_param('eod/hs_interface/n_tick',20) # numero tick encoder
+		self.l = rospy.get_param('eod/physics/l') # distanza tra ruote
+		self.r = rospy.get_param('eod/physics/r') # raggio ruota
+		self.tick_encoder = rospy.get_param('eod/hs_interface/n_tick') # numero tick encoder
 		self.step = (2.0*pi*self.r)/self.tick_encoder # passo encoder
 
 		# ------ VARIABILI ------
@@ -38,12 +40,12 @@ class Odometry():
 		self.vth = 0.0
 
 		# ------ TOPIC ------
-		rospy.Subscriber('eod/tick_dx', Bool, self.tick_dx_callback)
-		rospy.Subscriber('eod/tick_sx', Bool, self.tick_sx_callback)
-		rospy.Subscriber('eod/wheels_vel', Wheels_Vel, self.wheels_vel_callback)
+		rospy.Subscriber('tick_dx', Byte, self.tick_dx_callback)
+		rospy.Subscriber('tick_sx', Byte, self.tick_sx_callback)
+		rospy.Subscriber('wheels_vel', Wheels_Vel, self.wheels_vel_callback)
 
-		self.odom_pub = rospy.Publisher('eod/odom', Odometry, queue_size=10)
-		self.odom_broadcaster = tf.TransformBroadCaster()
+		self.odom_pub = rospy.Publisher('odom', Odometry, queue_size=10)
+		self.odom_broadcaster = tf.TransformBroadcaster()
 
 
 	def loop(self):
@@ -67,16 +69,19 @@ class Odometry():
 		self.tick_sx = 0
 
 		if nr == nl:
-			self.x = self.x - self.step*nr*cos(self.th)
+			# se il dual drive va indietro nr diventa negativo
+			# quindi non c'e' bisogno di sottrarre pi radianti 
+			# all'angolo theta.
+			self.x = self.x + self.step*nr*cos(self.th)
 			self.y = self.y + self.step*nr*sin(self.th)
 			#self.th = self.th
 		else:
-			k1 = ((self.l/2.0)*(nr+nl))/(nr-nl)
-			k2 = (self.step/self.l)*(nr-nl)
+			R = (self.l/2.0) * ((nr+nl)/(nr-nl)) # distanza da ICC al centro dell'asse delle ruote
+			wdt = (self.step/self.l)*(nr-nl)   # theta' = theta + w*dt, omega:=w
 
-			self.x = self.x - k1*sin(self.th) + k1*sin(self.th+k2)
-			self.y = self.y + k1*cos(self.th) - k1*cos(self.th+k2)
-			self.th = self.th + k2
+			self.x = self.x - R*sin(self.th) + R*sin(self.th+wdt)
+			self.y = self.y + R*cos(self.th) - R*cos(self.th+wdt)
+			self.th = self.th + wdt
 
 
 	def publish_odom(self):
@@ -87,7 +92,7 @@ class Odometry():
 		odom_trans = TransformStamped()
 		odom_trans.header.stamp = current_time
 		odom_trans.header.frame_id = 'odom'
-		odom_trans.child_frame_id = 'base_link'
+		odom_trans.child_frame_id = 'base_footprint'
 
 		odom_quat = tf.transformations.quaternion_from_euler(0, 0, self.th)
 		odom_trans.transform.translation.x = self.x
@@ -95,19 +100,23 @@ class Odometry():
 		odom_trans.transform.translation.z = 0.0
 		odom_trans.transform.rotation = odom_quat
 
-		self.odom_broadcaster.sendTransform(odom_trans)
+		self.odom_broadcaster.sendTransform((self.x, self.y, 0),tf.transformations.quaternion_from_euler(0, 0, self.th),current_time, 'odom', 'base_footprint')
 
 		
 		# pubblica il messaggio Odometry sul topic eod/odom
 		odom = Odometry()
 		odom.header.stamp = current_time
 		odom.header.frame_id = 'odom'
-		odom.child_frame_id = 'base_link'
+		odom.child_frame_id = 'base_footprint'
 
 		odom.pose.pose.position.x = self.x
 		odom.pose.pose.position.y = self.y
 		odom.pose.pose.position.z = 0.0
-		odom.pose.pose.orientation = odom_quat;
+		
+		odom.pose.pose.orientation.x = odom_quat[0];
+		odom.pose.pose.orientation.y = odom_quat[1];
+		odom.pose.pose.orientation.z = odom_quat[2];
+		odom.pose.pose.orientation.w = odom_quat[3];
 
 		odom.twist.twist.linear.x = self.vx
 		odom.twist.twist.linear.y = self.vy
@@ -133,6 +142,7 @@ class Odometry():
 
 
 if __name__ == '__main__':
-    odo = Odometry()
-    odo.loop()
+	o = OdometryClass()
+	o.loop()
+
 

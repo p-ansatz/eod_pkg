@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-import rospy
 
+import rospy
+from eod_pkg.msg import Wheels_Vel
 from std_msgs.msg import Float32
 from geometry_msgs.msg import Twist
 
@@ -16,16 +17,16 @@ class RefTransformer():
 		self.rate = rospy.Rate(self.freq)
 
 		# parametri fisici
-		self.l = rospy.get_param('eod/physics/l',0.1) # distanza tra ruote
+		self.l = rospy.get_param('eod/physics/l') # distanza tra ruote
 
 		# ------ VARIABILI ------
 		self.v_dx = 0.0
 		self.v_sx = 0.0
 
 		# ------ TOPIC ------
-		rospy.Subscriber('eod/cmd_vel', Twist, self.transform_callback)
+		rospy.Subscriber('cmd_vel', Twist, self.transform_callback)
 		
-		self.v_target_pub = rospy.Publisher('eod/v_target', Wheels_Vel, queue_size=10)
+		self.v_target_pub = rospy.Publisher('v_target', Wheels_Vel, queue_size=10)
 		
 	def loop(self):
 		while not rospy.is_shutdown():
@@ -43,7 +44,7 @@ class RefTransformer():
 		elif vth == 0:
 			# procede diritto avanti o dietro
 			v_dx = v_sx = vx
-		else
+		else:
 			# si muove su una curva
 			v_dx = vx + vth * self.l/2.0
 			v_sx = vx - vth * self.l/2.0
@@ -57,4 +58,8 @@ class RefTransformer():
 			msg_vel.right = self.v_dx
 			msg_vel.left = self.v_sx
 			self.v_target_pub.publish(msg_vel)
+
+if __name__ == '__main__':
+	rt = RefTransformer()
+	rt.loop()
 

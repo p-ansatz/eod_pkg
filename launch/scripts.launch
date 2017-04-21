@@ -1,0 +1,18 @@
+<launch>
+	
+	<node pkg="eod_pkg" type="hs_interface.py" name="hs_interface" required="true">
+   </node>
+
+   <node pkg="eod_pkg" type="motor_controller.py" name="motor_controller" required="true">
+   </node>
+
+   <node pkg="eod_pkg" type="odometry.py" name="odometry" required="true">
+   </node>
+
+   <node pkg="eod_pkg" type="ref_transformer.py" name="ref_transformer" required="true">
+   </node>
+
+   <node pkg="eod_pkg" type="wheels_vel_sensor.py" name="wheels_vel_sensor" required="true">
+   </node>
+
+</launch>
