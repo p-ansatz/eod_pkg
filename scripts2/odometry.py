@@ -78,7 +78,7 @@ class Odometry():
 			wdt = (self.step/self.l)*(nr-nl)   # theta' = theta + w*dt, omega:=w
 
 			self.x = self.x - R*sin(self.th) + R*sin(self.th+wdt)
-			self.y = self.y + R*cos(self.th) - R*cos(self.th-wdt)
+			self.y = self.y + R*cos(self.th) - R*cos(self.th+wdt)
 			self.th = self.th + wdt
 
 
