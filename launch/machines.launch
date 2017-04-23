@@ -1,0 +1,7 @@
+<launch>
+  
+  <machine name="raspberry" address="192.168.1.13" env-loader="/opt/ros/kinetic/env.sh" user="pi" default="true"/>
+  
+  <machine name="workstation" address="192.168.1.9" env-loader="/home/toto/ROS/indigo/eod_ws/workstation_env.sh" user="toto" />
+
+</launch>
