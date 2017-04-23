@@ -1,21 +1,21 @@
 <launch>
 
 	<!-- Params -->
-	<rosparam command="load" file="$(find eod_pkg)/params/eod_param.yaml" />
+	<rosparam command="load" file="$(find eod_pkg)/eod_param.yaml" />
 
 	<!-- Description and Transforms -->
   <include file="$(find eod_pkg)/launch/eod_description.launch"/>
-	<!--node  pkg="eod_pkg" type="tf_broadcaster" name="tf_broadcaster" /-->
+	<node  pkg="eod_pkg" type="tf_broadcaster" name="tf_broadcaster" />
 	
 	<!-- Sensors -->
-  <include file="/opt/ros/kinetic/share/freenect_launch/launch/freenect.launch"/>
+  <include file="/opt/ros/indigo/share/freenect_launch/launch/freenect.launch"/>
   
   <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan"   >   <remap from="image" to="/camera/depth/image_raw"/>
 	</node>
 
   
   <!-- EOD -->
-  <include file="$(find eod_pkg)/launch/scripts.launch"/>
+  <include file="$(find eod_pkg)/launch/scripts.launch">
 
 
 </launch>
