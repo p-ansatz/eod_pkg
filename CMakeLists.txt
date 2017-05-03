@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 2.8.3)
 project(eod_pkg)
 
 ## Find catkin macros and libraries

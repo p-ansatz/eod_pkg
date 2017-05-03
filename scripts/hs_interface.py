@@ -78,7 +78,7 @@ class HS_interface():
             self.motor_sx.forward(v_input_sx)
             dir_sx = 1
         else:
-            self.motor_dx.backward(-v_input_sx)
+            self.motor_sx.backward(-v_input_sx)
             dir_sx = -1
             
 # ------ CALLBACK ENCODER ------

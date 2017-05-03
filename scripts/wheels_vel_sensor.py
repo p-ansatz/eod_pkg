@@ -21,8 +21,8 @@ class WheelsVelSensor():
         self.rate = rospy.Rate(self.freq)
 
         # parametri fisici
-        self.r = rospy.get_param('/eod/physics/r', 0.013) # dimensione ruote
-        self.tick_encoder = rospy.get_param('/eod/physics/n_tick', 20) # numero tick encoder
+        self.r = rospy.get_param('/eod/physics/r') # dimensione ruote
+        self.tick_encoder = rospy.get_param('/eod/physics/n_tick') # numero tick encoder
 
         # dimensione dei vettori fifo
         self.n = 10
@@ -98,11 +98,11 @@ class WheelsVelSensor():
 
     def tick_dx_callback(self, msg):
         self.tick_dx += msg.data
-        print("DX %d" % self.tick_dx)
+        #print("DX %d" % self.tick_dx)
 
     def tick_sx_callback(self, msg):
         self.tick_sx += msg.data
-        print("SX %d" % self.tick_sx)
+        #print("SX %d" % self.tick_sx)
         
 if __name__ == '__main__':
     wvs = WheelsVelSensor()

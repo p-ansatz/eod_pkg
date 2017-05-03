@@ -3,4 +3,5 @@
 		<include file="$(find eod_pkg)/launch/eod_config.launch"/>
 		<include file="$(find eod_pkg)/launch/move_base.launch"/>
 	</group>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find eod_pkg)/urdf.rviz" />
 </launch>

@@ -42,7 +42,7 @@ class OdometryClass():
 		# ------ TOPIC ------
 		rospy.Subscriber('tick_dx', Byte, self.tick_dx_callback)
 		rospy.Subscriber('tick_sx', Byte, self.tick_sx_callback)
-		rospy.Subscriber('wheels_vel', Wheels_Vel, self.wheels_vel_callback)
+		rospy.Subscriber('wheels_velocity', Wheels_Vel, self.wheels_vel_callback)
 
 		self.odom_pub = rospy.Publisher('odom', Odometry, queue_size=10)
 		self.odom_broadcaster = tf.TransformBroadcaster()
@@ -138,7 +138,7 @@ class OdometryClass():
 
 		self.vx = v * cos(self.th)
 		self.vy = v * sin(self.th)
-		self.vth = (vr-vl)/l
+		self.vth = (vr-vl)/self.l
 
 
 if __name__ == '__main__':
