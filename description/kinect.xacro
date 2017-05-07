@@ -17,7 +17,7 @@
   <xacro:macro name="sensor_kinect" params="parent">
       
     <joint name="camera_joint" type="fixed">
-      <origin xyz="${tower_length} 0 ${ tower_height/2 + kinect_base_height }" rpy="0 0 0"/>
+      <origin xyz="0 0 ${ tower_height/2 + kinect_base_height }" rpy="0 0 0"/>
       <parent link="${parent}"/>
       <child link="camera_link"/>
     </joint>  
