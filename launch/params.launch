@@ -1,0 +1,5 @@
+<launch>
+
+	<!-- Params -->
+	<rosparam command="load" file="$(find eod_pkg)/params/eod_param.yaml" />
+</launch>

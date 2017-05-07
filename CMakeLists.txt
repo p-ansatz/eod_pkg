@@ -17,6 +17,42 @@ find_package(catkin REQUIRED COMPONENTS
   move_base
 )
 
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+
+include(${QT_USE_FILE})
+add_definitions(-DQT_NO_KEYWORDS)
+add_definitions(${QT_DEFINITIONS})
+
+#set(HEADER_FILES 
+#  src/rviz_gui.h
+  #include/myviz.h
+#)
+
+set(SOURCE_FILES
+  src/find_object_tf.cpp
+  ${MOC_FILES}
+)
+
+#set(FORM_FILES 
+#  src/rviz_gui.ui
+#)
+
+QT4_WRAP_CPP(MOC_SRC_H
+  ${HEADER_FILES}
+)
+
+QT4_WRAP_UI(MOC_GUI_H 
+  ${FORM_FILES}
+)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+#add_executable(find_object_tf src/find_object_tf.cpp ${SOURCE_FILES} ${MOC_SRC_H} ${MOC_GUI_H})
+#target_link_libraries(find_object_tf ${QT_LIBRARIES} ${catkin_LIBRARIES})
+
+
+
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -137,6 +173,7 @@ include_directories(
 ## Declare a C++ executable
 add_executable(tf_broadcaster src/tf_broadcaster.cpp)
 add_executable(odo src/odo.cpp)
+add_executable(find_object_tf src/find_object_tf.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -145,6 +182,9 @@ add_executable(odo src/odo.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries( tf_broadcaster ${catkin_LIBRARIES} )
 target_link_libraries( odo ${catkin_LIBRARIES} )
+target_link_libraries( find_object_tf ${QT_LIBRARIES} ${catkin_LIBRARIES} )
+
+
 #############
 ## Install ##
 #############

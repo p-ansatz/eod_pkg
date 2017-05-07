@@ -1,18 +1,23 @@
 <?xml version="1.0"?>
 <robot name="sensor_kinect" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="/opt/ros/indigo/share/turtlebot_description/urdf/turtlebot_gazebo.urdf.xacro"/>
-  <xacro:include filename="/opt/ros/indigo/share/turtlebot_description/urdf/turtlebot_properties.urdf.xacro"/>
+  <xacro:include filename="/opt/ros/kinetic/share/turtlebot_description/urdf/turtlebot_gazebo.urdf.xacro"/>
+  <xacro:include filename="/opt/ros/kinetic/share/turtlebot_description/urdf/turtlebot_properties.urdf.xacro"/>
   
+  <property name="PI" value="3.1415926535897931" />
+
   <xacro:property name="kinect_cam_py" value="-0.0125"/>
   <property name="kinect_base_height" value="0.035"/>
   <property name="tower_height" value="0.225" /> 
-
+  <property name="tower_length" value="0.027" />
+  
+  <!-- piccola quantita' per far andare la kinect inclinata sulla torretta-->
+  <property name="bias" value="0.003" />
 
   <!-- Parameterised in part by the values in turtlebot_properties.urdf.xacro -->
   <xacro:macro name="sensor_kinect" params="parent">
       
     <joint name="camera_joint" type="fixed">
-      <origin xyz="0 0 ${ tower_height/2 + kinect_base_height}" rpy="0 0 0"/>
+      <origin xyz="${tower_length} 0 ${ tower_height/2 + kinect_base_height }" rpy="0 0 0"/>
       <parent link="${parent}"/>
       <child link="camera_link"/>
     </joint>  

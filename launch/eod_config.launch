@@ -11,7 +11,9 @@
   <include file="/opt/ros/indigo/share/freenect_launch/launch/freenect.launch"/>
   
   <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan"   >   <remap from="image" to="/camera/depth/image_raw"/>
-	</node>
+  	<param name="range_max" value="4.0"/>
+  	<param name="range_min" value="0.2"/>
+ </node> 
 
   
   <!-- EOD -->

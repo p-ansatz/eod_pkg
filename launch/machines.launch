@@ -1,7 +1,7 @@
 <launch>
+
+  <machine name="raspy" address="192.168.1.69" password="raspberry" env-loader="/home/pi/eod_ws/raspy_env_loader.sh" user="pi" default="true" />
   
-  <machine name="raspberry" address="192.168.1.13" env-loader="/opt/ros/kinetic/env.sh" user="pi" default="true"/>
-  
-  <machine name="workstation" address="192.168.1.9" env-loader="/home/toto/ROS/indigo/eod_ws/workstation_env.sh" user="toto" />
+  <machine name="workstation" address="192.168.1.3" env-loader="/home/toto/ROS/kinetic/eod_ws/workstation_env.sh" user="toto" />
 
 </launch>

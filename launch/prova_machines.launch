@@ -3,8 +3,8 @@
   <include file="$(find eod_pkg)/launch/machines.launch"/>
   
   
-  <node pkg="/opt/ros/indigo/share/rospy_tutorials" type="listener" name="listener" machine="workstation"/>
+  <node pkg="rospy_tutorials" type="listener" name="listener" machine="workstation"/>
   
-  <node pkg="/opt/ros/kinetic/share/rospy_tutorials" type="talker" name="talker" machine="raspberry"/>
+  <node pkg="rospy_tutorials" type="talker" name="talker" machine="raspy"/>
 
 </launch>

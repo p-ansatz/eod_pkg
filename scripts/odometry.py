@@ -110,6 +110,7 @@ class Odometry():
 		odom.pose.pose.position.x = self.x
 		odom.pose.pose.position.y = self.y
 		odom.pose.pose.position.z = 0.0
+		
 		odom.pose.pose.orientation = odom_quat;
 
 		odom.twist.twist.linear.x = self.vx
