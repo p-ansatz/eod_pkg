@@ -24,9 +24,15 @@ if __name__ == '__main__':
 	rospy.init_node('test_nav')
 	client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 	client.wait_for_server()
-	while True:
-		for pose in waypoints:
-			goal = goal_pose(pose)
-			client.send_goal(goal)
-			#print("goal sent")
-			client.wait_for_result()
+
+	goal = goal_pose(waypoints[1])
+	client.send_goal(goal)
+	print("goal sent")
+	client.wait_for_result()
+
+	# while True:
+	# 	for pose in waypoints:
+	# 		goal = goal_pose(pose)
+	# 		client.send_goal(goal)
+	# 		#print("goal sent")
+	# 		client.wait_for_result()
