@@ -41,7 +41,7 @@ class GoalGovernor():
 		# ------ TF ------
 		self.tl = tf.TransformListener()
 
-	def loop(self)
+	def loop(self):
 		while not rospy.is_shutdown():
 
 			self.place_phase()

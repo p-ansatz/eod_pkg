@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   move_base
 )
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED actionlib_msgs)
 
 include(${QT_USE_FILE})
 add_definitions(-DQT_NO_KEYWORDS)
@@ -100,8 +100,9 @@ add_message_files(
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
+add_action_files(
+    DIRECTORY action
+    FILES MoveArm.action
 #   Action1.action
 #   Action2.action
 # )
@@ -109,6 +110,7 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
+   actionlib_msgs
    std_msgs
  )
 
@@ -146,7 +148,7 @@ catkin_package(
 #  LIBRARIES eod_pkg
 #  CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs
 #  DEPENDS system_lib
-   CATKIN_DEPENDS message_runtime
+   CATKIN_DEPENDS message_runtime actionlib_msgs
 )
 
 ###########
