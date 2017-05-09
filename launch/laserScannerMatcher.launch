@@ -1,6 +1,5 @@
 <launch>
 	
-	<!-- Run the MAP SERVER -->
 	<node name="laserScannerMatcher" pkg="laser_scan_matcher" type="laser_scan_matcher_node" output="screen">
 		
 		<!-- The frame to set in the header of the published map.  -->
