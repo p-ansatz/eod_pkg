@@ -8,7 +8,7 @@ class TfExample
 {
 public:
 	TfExample() :
-		mapFrameId_("/map"),
+		mapFrameId_("map"),
 		objFramePrefix_("object")
 	{
 		ros::NodeHandle pnh("~");
