@@ -1,0 +1,6 @@
+<launch>
+	<group ns="eod">
+		<include file="$(find eod_pkg)/launch/eod_config.launch"/>
+		<include file="$(find eod_pkg)/launch/move_base.launch"/>
+	</group>
+</launch>

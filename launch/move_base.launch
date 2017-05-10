@@ -1,0 +1,34 @@
+<launch>
+	
+	<!-- Run the MAP SERVER -->
+	<node name="map_server" pkg="map_server" type="map_server"
+		args="$(find eod_pkg)/maps/map6.yaml" output="screen">
+		<!-- The frame to set in the header of the published map.  -->
+		<param name="frame_id" value="map" />
+	</node>
+		
+	<!-- Run AMCL -->	
+	<include file="$(find eod_pkg)/launch/eod_amcl.launch"/>
+		
+	<!-- Run NAV STACK -->	
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+		
+		<!--rosparam file="$(find eod_pkg)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find eod_pkg)/params/costmap_common_params.yaml" command="load" ns="local_costmap" /-->
+		
+		<param name="controller_frequency" value="20" />
+		<param name="planner_patience" value="10.0" />
+		<param name="controller_patience" value="30.0" />
+
+		<rosparam file="$(find eod_pkg)/params/local_costmap_params.yaml" command="load"/>
+		
+		<rosparam file="$(find eod_pkg)/params/global_costmap_params.yaml" command="load"/>
+		
+		<!--param name="allow_none" value="true"/-->
+	
+		<rosparam file="$(find eod_pkg)/params/base_local_planner_params.yaml" command="load" />
+
+
+	</node>
+
+</launch>

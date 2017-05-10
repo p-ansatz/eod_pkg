@@ -10,7 +10,48 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  tf
+  rviz
+  urdf
+  xacro
+  move_base
 )
+
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED actionlib_msgs)
+
+include(${QT_USE_FILE})
+add_definitions(-DQT_NO_KEYWORDS)
+add_definitions(${QT_DEFINITIONS})
+
+#set(HEADER_FILES 
+#  src/rviz_gui.h
+  #include/myviz.h
+#)
+
+set(SOURCE_FILES
+  src/find_object_tf.cpp
+  ${MOC_FILES}
+)
+
+#set(FORM_FILES 
+#  src/rviz_gui.ui
+#)
+
+QT4_WRAP_CPP(MOC_SRC_H
+  ${HEADER_FILES}
+)
+
+QT4_WRAP_UI(MOC_GUI_H 
+  ${FORM_FILES}
+)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+#add_executable(find_object_tf src/find_object_tf.cpp ${SOURCE_FILES} ${MOC_SRC_H} ${MOC_GUI_H})
+#target_link_libraries(find_object_tf ${QT_LIBRARIES} ${catkin_LIBRARIES})
+
+
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -48,19 +89,20 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
    FILES
-   Ticks.msg
+   Wheels_Vel.msg
 )
 
 ## Generate services in the 'srv' folder
- add_service_files(
-   FILES
-   VelRuota.srv
+# add_service_files(
+#  FILES
+   
 #   Service2.srv
- )
+# )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
+add_action_files(
+    DIRECTORY action
+    FILES MoveArm.action
 #   Action1.action
 #   Action2.action
 # )
@@ -68,6 +110,7 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
+   actionlib_msgs
    std_msgs
  )
 
@@ -105,7 +148,7 @@ catkin_package(
 #  LIBRARIES eod_pkg
 #  CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs
 #  DEPENDS system_lib
-   CATKIN_DEPENDS message_runtime
+   CATKIN_DEPENDS message_runtime actionlib_msgs
 )
 
 ###########
@@ -130,16 +173,19 @@ include_directories(
 # add_dependencies(eod_pkg ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(eod_pkg_node src/eod_pkg_node.cpp)
+add_executable(tf_broadcaster src/tf_broadcaster.cpp)
+add_executable(odo src/odo.cpp)
+add_executable(find_object_tf src/find_object_tf.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(eod_pkg_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(eod_pkg_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries( tf_broadcaster ${catkin_LIBRARIES} )
+target_link_libraries( odo ${catkin_LIBRARIES} )
+target_link_libraries( find_object_tf ${QT_LIBRARIES} ${catkin_LIBRARIES} )
+
 
 #############
 ## Install ##

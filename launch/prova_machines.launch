@@ -1,0 +1,10 @@
+<launch>
+
+  <include file="$(find eod_pkg)/launch/machines.launch"/>
+  
+  
+  <node pkg="rospy_tutorials" type="listener" name="listener" machine="workstation"/>
+  
+  <node pkg="rospy_tutorials" type="talker" name="talker" machine="raspy"/>
+
+</launch>
