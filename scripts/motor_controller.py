@@ -8,7 +8,7 @@ from pid import PID
 class MotorController():
 	
 	def __init__(self):
-		rospy.init_node('motor_controller')
+		rospy.init_node('motor_controller',log_level=rospy.INFO)
 
 		# ------ PARAMETRI ------
 		# frequenza del loop 

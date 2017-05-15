@@ -15,9 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
   urdf
   xacro
   move_base
+  actionlib_msgs
 )
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED actionlib_msgs)
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 
 include(${QT_USE_FILE})
 add_definitions(-DQT_NO_KEYWORDS)

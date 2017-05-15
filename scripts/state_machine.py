@@ -17,12 +17,12 @@ class Waypoint(State):
 		
 		State.__init__(self, outcomes=['success','abort'])
 		
-		rospy.init_node('waypoint')
-		
 		global_area.init()
+
+		self.position=position
 		
 		# ------ PARAMETRI -----
-		self.results = {3 : 'success',4 : 'abort'}
+		self.results = {3 : 'success', 2 : 'abort'}
 
 		# Define the goal
 		self.goal = MoveBaseGoal()
@@ -35,39 +35,53 @@ class Waypoint(State):
 		self.goal.target_pose.pose.orientation.y = orientation[1]
 		self.goal.target_pose.pose.orientation.z = orientation[2]
 		self.goal.target_pose.pose.orientation.w = orientation[3]
-	
+		
 	def execute(self, userdata):
+
+		rospy.loginfo('vado in x:%f y:%f '%(self.position[0],self.position[1]) )
 		global_area.move_client.send_goal(self.goal)
 		global_area.move_client.wait_for_result()
-
+				
 		return self.results[global_area.move_client.get_state()]
 
-class GotoTarget(State):
-	def __init__(self, position, orientation):
+class GotoTarget(State): 
+	def __init__(self):
 		
 		State.__init__(self, outcomes=['success','abort'])
 		
-		global_area.init()
+		# ------ PARAMETRI -----
+		self.results = {3 : 'success', 4 : 'abort'}
 		
 	def execute(self, userdata):
-		target_point = global_area.get_target_point()
+		rospy.loginfo('goto target' )
+
+		in_file = open('target.txt','r')
+		read_str = in_file.read()
+		list_str = read_str.split(" ")
+		target_point = map(float, list_str)
+		in_file.close()
 
 		# Define the goal
 		self.goal = MoveBaseGoal()
 		self.goal.target_pose.header.frame_id = 'map'
-		self.goal.target_pose.pose.position.x = target_point[0][0]
-		self.goal.target_pose.pose.position.y = target_point[0][1]
+		self.goal.target_pose.pose.position.x = target_point[0]
+		self.goal.target_pose.pose.position.y = target_point[1]
 		self.goal.target_pose.pose.position.z = 0.0
 		
-		self.goal.target_pose.pose.orientation.x = target_point[1][0]
-		self.goal.target_pose.pose.orientation.y = target_point[1][1]
-		self.goal.target_pose.pose.orientation.z = target_point[1][2]
-		self.goal.target_pose.pose.orientation.w = target_point[1][3]
-
-		global_area.move_client.send_goal(self.goal)
-		global_area.move_client.wait_for_result()
-
-		return self.results[global_area.move_client.get_state()]
+		self.goal.target_pose.pose.orientation.x = 0.0#target_point[2]
+		self.goal.target_pose.pose.orientation.y = 0.0#target_point[3]
+		self.goal.target_pose.pose.orientation.z = 0.0#target_point[4]
+		self.goal.target_pose.pose.orientation.w = 1.0#target_point[5]
+		print self.goal
+		move_client1  = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+		move_client1.wait_for_server()
+		
+		rospy.loginfo('vado in x:%f y:%f '%(target_point[0],target_point[1]) )
+		move_client1.send_goal(self.goal)
+		print "GOAL SPEDITO"
+		move_client1.wait_for_result()
+		print "RISULTATO %d"%move_client1.get_state()
+		return self.results[move_client1.get_state()]
 
 class GetObject(State):
 	def __init__(self):
@@ -117,8 +131,8 @@ if __name__ == '__main__':
 
 	with SM:
 		for i,w in enumerate(waypoints):
-			StateMachine.add(w[0], Waypoint(w[1], w[2]), transitions={'success':waypoints[(i + 1)% len(waypoints)][0],'abort':'goto_target'})
-		StateMachine.add('goto_target', GotoTarget() , transitions={'success':'get_object'})
+			StateMachine.add(w[0], Waypoint(w[1], w[2]), transitions={'success':'goto_target','abort':'goto_target'})
+		StateMachine.add('goto_target', GotoTarget() , transitions={'success':'get_object','abort':'goto_target'})
 		StateMachine.add('get_object', GetObject(), transitions={'success':waypoints[0][0]})
 
 	SM.execute()

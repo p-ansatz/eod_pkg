@@ -24,16 +24,16 @@ class HS_interface():
     def __init__(self):
         rospy.init_node('hs_interface')
 
-    	# ------ PARAMETRI ------
-    	# frequenza del loop 
+	# ------ PARAMETRI ------
+	# frequenza del loop 
         self.freq = rospy.get_param('/eod/loop_freq/default')
         self.rate = rospy.Rate(self.freq)
 
-        # Pin Encoder
+	# Pin Encoder
         self.pin_enc_dx = rospy.get_param('/eod/pin/pin_enc_dx')
         self.pin_enc_sx = rospy.get_param('/eod/pin/pin_enc_sx')
 
-        # Setup encoder Destro
+	# Setup encoder Destro
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin_enc_dx, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.pin_enc_dx, GPIO.RISING, callback=callback_enc_dx, bouncetime=3)
