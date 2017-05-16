@@ -1,8 +1,8 @@
 #goal definition
-Point p
+geometry_msgs/Point p
 int16 cmd
 ---
 #result definition
-String res
+std_msgs/String res
 ---
 #feedback

@@ -55,6 +55,7 @@ class GotoTarget(State):
 	def execute(self, userdata):
 		rospy.loginfo('goto target' )
 
+		# Get target point - read from file
 		in_file = open('target.txt','r')
 		read_str = in_file.read()
 		list_str = read_str.split(" ")
@@ -78,9 +79,9 @@ class GotoTarget(State):
 		
 		rospy.loginfo('vado in x:%f y:%f '%(target_point[0],target_point[1]) )
 		move_client1.send_goal(self.goal)
-		print "GOAL SPEDITO"
+		
 		move_client1.wait_for_result()
-		print "RISULTATO %d"%move_client1.get_state()
+		
 		return self.results[move_client1.get_state()]
 
 class GetObject(State):
@@ -102,6 +103,7 @@ class GetObject(State):
 		self.move_arm_client.wait_for_server()
 		self.goal.p = self.create_goal()
 		self.goal.cmd = 1
+		
 		self.move_arm_client.send_goal(self.goal)
 		self.move_arm_client.wait_for_result()
 
@@ -119,7 +121,7 @@ class GetObject(State):
 		arm_goal.pose.orientation.z = point[5]
 		arm_goal.pose.orientation.w = point[6]
 
-		return self.tl.transformPose("arm_base", arm_goal_pose)
+		return self.tl.transformPose("base_arm", arm_goal_pose)
 
 if __name__ == '__main__':
 	rospy.init_node('state_machine')
@@ -133,6 +135,6 @@ if __name__ == '__main__':
 		for i,w in enumerate(waypoints):
 			StateMachine.add(w[0], Waypoint(w[1], w[2]), transitions={'success':'goto_target','abort':'goto_target'})
 		StateMachine.add('goto_target', GotoTarget() , transitions={'success':'get_object','abort':'goto_target'})
-		StateMachine.add('get_object', GetObject(), transitions={'success':waypoints[0][0]})
+		StateMachine.add('get_object', GetObject(), transitions={'success':'one','abort':'get_object'})
 
 	SM.execute()

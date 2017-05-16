@@ -1,0 +1,8 @@
+<launch>
+
+	<include file = "/opt/ros/kinetic/share/freenect_launch/launch/freenect.launch"/>
+	
+	<node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan"   >   <remap from="image" to="/camera/depth/image_raw"/>
+	</node>
+
+</launch>

@@ -106,13 +106,14 @@ add_action_files(
     FILES MoveArm.action
 #   Action1.action
 #   Action2.action
-# )
+)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
    actionlib_msgs
    std_msgs
+   geometry_msgs
  )
 
 ################################################

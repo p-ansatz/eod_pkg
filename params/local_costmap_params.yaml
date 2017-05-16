@@ -23,7 +23,7 @@ local_costmap:
   resolution: 0.00254
   
   # tolleranza in sec nel ritardo delle trasformazioni di tf
-  tranform_tolerance: 5.0
+  transform_tolerance: 5.0
 
   # frequenza del loop di pianificazione
   planner_frequency: 0.5

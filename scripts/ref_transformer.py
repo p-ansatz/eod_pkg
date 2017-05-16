@@ -42,12 +42,13 @@ class RefTransformer():
 		if vx == 0:
 		#gira su se stesso
 			
+			# Somma di un bias
 			# la rotazione su se' stesso non puo' essere inferiore a in_place_min_vel
-			if abs(vth) < self.in_place_min_vel:
-				if vth > 0.0:
-					vth += self.in_place_min_vel
-				elif vth < 0.0:
-					vth -= self.in_place_min_vel
+			#if abs(vth) < self.in_place_min_vel:
+			#	if vth > 0.0:
+			#		vth += self.in_place_min_vel
+			#	elif vth < 0.0:
+			#		vth -= self.in_place_min_vel
 			
 			v_dx = vth * self.l/2.0 
 			v_sx = (-1) * v_dx
@@ -56,12 +57,13 @@ class RefTransformer():
 			v_dx = v_sx = vx
 		else:
 			# si muove su una curva
-				
-			if abs(vth) < self.theta_min_vel:
-				if vth > 0.0:
-					vth += self.theta_min_vel
-				elif vth < 0.0:
-					vth -= self.theta_min_vel
+			
+			# Somma di un bias	
+			#if abs(vth) < self.theta_min_vel:
+			#	if vth > 0.0:
+			#		vth += self.theta_min_vel
+			#	elif vth < 0.0:
+			#		vth -= self.theta_min_vel
 
 			v_dx = vx + vth * self.l/2.0
 			v_sx = vx - vth * self.l/2.0

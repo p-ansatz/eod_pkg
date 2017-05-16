@@ -51,13 +51,13 @@ class ObjectDetector():
 			if self.good_place_goal and (not global_area.target_flag):
 				self.good_place_goal = False
 				global_area.target_flag = True
+				
 				out_file = open('target.txt','w')
 				out_file.write(" ".join(str(x) for x in place_goal))
 				out_file.close()
+				
 				global_area.modify_target_point(place_goal)
 				global_area.abort_move()
-
-
 	
 	def check_object(self):
 

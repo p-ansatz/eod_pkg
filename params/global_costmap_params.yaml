@@ -19,7 +19,7 @@ global_costmap:
   robot_radius: 0.0
 
   # tolleranza in sec nel ritardo delle trasformazioni di tf
-  tranform_tolerance: 10.0
+  transform_tolerance: 10.0
 
   ################################ COMMON ##################
   # soglia entro la quale un ostacolo entra nella local costmap

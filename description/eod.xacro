@@ -51,7 +51,7 @@
   <property name="tower_length" value="0.027" />
 
   <!-- wheel radius and height -->
-  <property name="wheel_radius" value="0.033" /> 
+  <property name="wheel_radius" value="0.035" /> 
   <property name="wheel_height" value="0.021" />
   <property name="wheel_to_front" value="0.08" />
   <property name="wheel_to_back" value="0.132" />
@@ -109,9 +109,9 @@
 
   <!-- BASE-ARM -->
   <!-- base_arm descrive la posizione del sistema di riferimento base del braccio rispetto a base_link -->
-  <property name="arm_x_offset" value="0.01" />
-  <property name="arm_y_offset" value="0.0" />
-  <property name="arm_z_offset" value="0.04" />
+  <property name="arm_x_offset" value="0.042" />
+  <property name="arm_y_offset" value="0.007" />
+  <property name="arm_z_offset" value="0.002" />
 
   <link name="base_arm">
     <visual>
@@ -123,7 +123,7 @@
   </link>
 
   <joint name="arm_joint" type="fixed">
-    <origin xyz="${arm_x_offset} ${arm_y_offset} ${r_base_offset + arm_z_offset}" rpy="0 0 0" />
+    <origin xyz="${arm_x_offset} ${arm_y_offset} ${r_base_offset + base_height + arm_z_offset}" rpy="0 0 ${-M_PI_2}" />
     <parent link="base_link"/>
     <child link="base_arm" />
   </joint>
