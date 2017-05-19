@@ -3,11 +3,12 @@
 #include <find_object_2d/ObjectsStamped.h>
 #include <QtCore/QString>
 #include <geometry_msgs/PoseStamped.h>
+#include <tf/transform_broadcaster.h>
 
-class TfExample
-{
+class TfExample{
+
 public:
-	TfExample() :
+	TfExample():
 		mapFrameId_("map"),
 		objFramePrefix_("object")
 	{
@@ -22,27 +23,23 @@ public:
 
 	// Here I synchronize with the ObjectsStamped topic to
 	// know when the TF is ready and for which objects
-	void objectsDetectedCallback(const find_object_2d::ObjectsStampedConstPtr & msg)
-	{
-		if(msg->objects.data.size())
-		{
-			for(unsigned int i=0; i<msg->objects.data.size(); i+=12)
-			{
+	void objectsDetectedCallback(const find_object_2d::ObjectsStampedConstPtr & msg){
+
+		if(msg->objects.data.size()){
+			for(unsigned int i=0; i<msg->objects.data.size(); i+=12){
 				// get data
 				int id = (int)msg->objects.data[i];
 				std::string objectFrameId = QString("%1_%2").arg(objFramePrefix_.c_str()).arg(id).toStdString(); // "object_1", "object_2"
 
 				tf::StampedTransform pose;
 				tf::StampedTransform poseCam;
-				try
-				{
+				try{
 					// Get transformation from "object_#" frame to target frame "map"
 					// The timestamp matches the one sent over TF
 					tfListener_.lookupTransform(mapFrameId_, objectFrameId, msg->header.stamp, pose);
 					tfListener_.lookupTransform(msg->header.frame_id, objectFrameId, msg->header.stamp, poseCam);
 				}
-				catch(tf::TransformException & ex)
-				{
+				catch(tf::TransformException & ex){
 					ROS_WARN("%s",ex.what());
 					continue;
 				}
@@ -56,7 +53,27 @@ public:
 						id, msg->header.frame_id.c_str(),
 						poseCam.getOrigin().x(), poseCam.getOrigin().y(), poseCam.getOrigin().z(),
 						poseCam.getRotation().x(), poseCam.getRotation().y(), poseCam.getRotation().z(), poseCam.getRotation().w());
-			
+
+/*				broadcaster.sendTransform(
+					tf::StampedTransform(
+						tf::Transform(tf::Quaternion(0, 0, 0, 1), tf::Vector3(0.30, 0.0, 0.0)),
+						ros::Time::now(), objectFrameId.c_str(), "goal_frame")
+				);
+
+				geometry_msgs::PoseStamped goal_frame_pose;
+		    	goal_frame_pose.header.stamp = ros::Time::now();
+		    	goal_frame_pose.header.frame_id = "goal_frame";
+			    goal_frame_pose.pose.position.x = 0.0;
+			    goal_frame_pose.pose.position.y = 0.0;
+			    goal_frame_pose.pose.position.z = 0.0;  
+			    goal_frame_pose.pose.orientation.x = 0.0;
+			    goal_frame_pose.pose.orientation.y = 0.0;
+			    goal_frame_pose.pose.orientation.z = 0.0;
+			    goal_frame_pose.pose.orientation.w = 1.0;
+
+			    geometry_msgs::PoseStamped object_pose;
+				tfListener_.transformPose(mapFrameId_.c_str(), goal_frame_pose, object_pose);*/
+
 				// pubblicazione della posa sul topic objects_stamped_poses
 				geometry_msgs::PoseStamped object_pose;
 			    object_pose.header.stamp = ros::Time::now();
@@ -80,10 +97,11 @@ private:
     ros::Subscriber subs_;
     tf::TransformListener tfListener_;
     ros::Publisher pub;
+    tf::TransformBroadcaster broadcaster;
 };
 
-int main(int argc, char * argv[])
-{
+int main(int argc, char * argv[]){
+
     ros::init(argc, argv, "find_object_tf");
 
     TfExample sync;

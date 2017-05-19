@@ -23,9 +23,10 @@ class ObjectDetector():
 
 		# inizializzazione fittizia della coda con 5 elementi
 		self.fifo_list = deque( [ [1.0,2.0,3.0,4.0,5.0,6.0,7.0], [21.0,22.0,23.0,24.0,25.0,26.0,27.0],
-		[31.0,32.0,33.0,34.0,35.0,36.0,37.0],[41.0,42.0,43.0,44.0,45.0,46.0,47.0],[51.0,52.0,53.0,54.0,55.0,56.0,57.0] ])
-
+		[31.0,32.0,33.0,34.0,35.0,36.0,37.0],] )
+		#[41.0,42.0,43.0,44.0,45.0,46.0,47.0],[51.0,52.0,53.0,54.0,55.0,56.0,57.0] ])
 		# ------ TOPIC ------
+		rospy.Subscriber('goal_pose', PoseStamped, self.goal_pose_callback)
 		rospy.Subscriber('objects_stamped_poses', PoseStamped, self.object_callback)
 		
 	def loop(self):
@@ -33,7 +34,7 @@ class ObjectDetector():
 
 			self.rate.sleep()
 
-	def object_callback(self, msg):
+	def goal_pose_callback(self, msg):
 			self.msg = msg
 			x = msg.pose.position.x
 			y = msg.pose.position.y
@@ -46,19 +47,35 @@ class ObjectDetector():
 			self.fifo_list.popleft()	
 			self.fifo_list.append([x,y,z,rx,ry,rz,rw])
 
-			place_goal = self.check_object()
-			
+			self.place_goal = self.check_object()
+
 			if self.good_place_goal and (not global_area.target_flag):
 				self.good_place_goal = False
 				global_area.target_flag = True
-				
-				out_file = open('target.txt','w')
-				out_file.write(" ".join(str(x) for x in place_goal))
-				out_file.close()
-				
-				global_area.modify_target_point(place_goal)
+
+				self.save_target_pose()
+
+				#global_area.modify_target_point(place_goal)			
 				global_area.abort_move()
-	
+
+	def save_target_pose(self):
+		out_file = open('poses.txt','w')
+		out_file.write(" ".join(str(x) for x in self.place_goal))
+		out_file.write("\n")
+		out_file.write(" ".join(str(x) for x in self.object_goal))
+		out_file.close()	
+
+	def object_callback(self, msg):
+		x = msg.pose.position.x
+		y = msg.pose.position.y
+		z = msg.pose.position.z
+		rx = msg.pose.orientation.x
+		ry = msg.pose.orientation.y
+		rz = msg.pose.orientation.z
+		rw = msg.pose.orientation.w
+		self.object_goal = [x,y,z,rx,ry,rz,rw]
+
+
 	def check_object(self):
 
 		# numero di pose nella lista
@@ -78,6 +95,7 @@ class ObjectDetector():
 
 		self.good_place_goal = found
 		return self.fifo_list[n_pose-1] # ritorniamo l'ultima posa ricevuta
+
 
 	
 if __name__ == '__main__':
