@@ -5,7 +5,7 @@ import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
 waypoints = [
-	[(0.3, 0.2, 0.0), (0.0, 0.0, 0.0, 1.0)],
+	[(0.853623089516, 2.05485977431, 0.0), (0.0,0.0, 0.70710678 , 0.70710678)],
 	[(0.3, 0.4, 0.0), (0.0, 0.0, -0.984047240305, 0.177907360295)] ]
 
 def goal_pose(pose):
@@ -25,10 +25,11 @@ if __name__ == '__main__':
 	client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 	client.wait_for_server()
 
-	goal = goal_pose(waypoints[1])
+	goal = goal_pose(waypoints[0])
 	client.send_goal(goal)
 	print("goal sent")
 	client.wait_for_result()
+	print client.get_state()
 
 	# while True:
 	# 	for pose in waypoints:

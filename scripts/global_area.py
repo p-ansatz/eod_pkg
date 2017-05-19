@@ -3,8 +3,14 @@ import actionlib
 import rospy
 from move_base_msgs.msg import MoveBaseAction
     
-waypoints = [ ['one', (1.0, 1.5), (0.0, 0.0, 0.0, 1.0)]]
-target_point = [ (0.0, 0.0, 0.0) , (0.0, 0.0 ,0.0, 0.0)]
+
+waypoints = [ 
+    ['one',   (1.0,1.5), (0.0,0.0, 0.70710678, 0.70710678)] ]
+    #['two',   (1.5, 2.5), (0.0, 0.0, 1.0, 0.0)],
+    #['three', (0.5, 2.5), (0.0,0.0, -0.70710678, 0.70710678)],
+    #['four',   (0.5, 0.5), (0.0, 0.0, 0.0, 1.0)]
+#]
+target_point = [ (0.0, 0.0, 0.0) , (0.0, 0.0 ,0.0, 0.0) ]
 move_client  = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 target_flag = False
 
@@ -15,10 +21,12 @@ def init():
 
     move_client  = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 
-    waypoints = [ ['one', (1.0, 1.5), (0.0, 0.0, 0.0, 1.0)]
-    # ,['two', (1.0, 2.5), (0.0, 0.0, 0.0, 1.0)] 
-    ]
-
+    waypoints = [ 
+        ['one',   (1.0,1.5), (0.0,0.0, 0.70710678, 0.70710678)]]
+ #       ['two',   (1.5, 2.5), (0.0, 0.0, 1.0, 0.0)],
+  #      ['three', (0.5, 2.5), (0.0,0.0, -0.70710678, 0.70710678)],
+   #     ['four',   (0.5, 0.5), (0.0, 0.0, 0.0, 1.0)]
+    #]
 def abort_move():
     global move_client
     print "cancel goal"
