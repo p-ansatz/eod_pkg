@@ -3,6 +3,8 @@
 import rospy
 import actionlib
 from eod_pkg.msg import MoveArmGoal, MoveArmAction, MoveArmResult
+from eod_pkg.msg import ArmPoseGoal, ArmPoseAction, ArmPoseResult
+from eod_pkg.msg import ArmClawGoal, ArmClawAction, ArmClawResult
 
 from std_msgs.msg import String, Int16
 from geometry_msgs.msg import Point
@@ -19,27 +21,58 @@ class ArmGovernor():
 		# ----- AZIONI ------
 		self.move_arm_server = actionlib.SimpleActionServer('move_arm', MoveArmAction, move_arm_callback, False)
 		self.move_arm_server.start()
+		self.pose_client  = actionlib.SimpleActionClient('arm_pos', ArmPoseAction)
+		self.pose_client.wait_for_server()
+		self.claw_client  = actionlib.SimpleActionClient('arm_claw', ArmClawAction)
+		self.claw_client.wait_for_server()
 
-		# ------ TOPIC ------
-		self.pose_pub = rospy.Publisher('prendi_oggetti', Point, queue_size=10)
-		self.pinza_pub = rospy.Publisher('posiziona_pinza', Point, queue_size=10)
-		rospy.Subscriber('operazione_terminata', Int16, self.op_term_callback)
-
-	def move_arm_callback(self, goal):
-		self.cmd = goal.cmd
-		if (self.cmd == 1):
-			# Prendi Oggetto
-			self.pose_pub.publish(goal.p)
-		elif (self.cmd == 2):
-			# Posiziona Pinza
-			self.pinza_pub.publish(goal.p)
-
-	def op_term_callback(self, msg):
-		if (self.cmd == msg):
-			# Azione Terminata
+	def move_arm_callback(self, msg):
+		if (msg.cmd == 1):
+			# Chiudi pinza
+			goal = ArmClawGoal()
+			goal.open = False
+			self.claw_client.send_goal(goal)
+			self.claw_client.wait_for_result()
 			result = MoveArmResult()
 			result.res = 'success'
 			self.move_arm_server.set_succeeded(result)
+		elif (msg.cmd == 2):
+			# Apri pinza
+			goal = ArmClawGoal()
+			goal.open = True
+			self.claw_client.send_goal(goal)
+			self.claw_client.wait_for_result()
+			result = MoveArmResult()
+			result.res = 'success'
+			self.move_arm_server.set_succeeded(result)
+		elif (msg.cmd == 3)
+			# Posiziona braccio
+			goal = msg.p 
+			self.pose_client.send_goal(goal)
+			self.pose_client.wait_for_result()
+			result = MoveArmResult()
+			result.res = 'success'
+			self.move_arm_server.set_succeeded(result)
+		elif (msg.cmd == 4)
+			# Prendi oggetto
+			# apri pinza
+			goal = ArmClawGoal()
+			goal.open = True
+			self.claw_client.send_goal(goal)
+			self.claw_client.wait_for_result()
+			# posiziona braccio
+			goal = msg.p 
+			self.pose_client.send_goal(goal)
+			self.pose_client.wait_for_result()
+			# chiudi pinza
+			goal = ArmClawGoal()
+			goal.open = False
+			self.claw_client.send_goal(goal)
+			self.claw_client.wait_for_result()
+			result = MoveArmResult()
+			result.res = 'success'
+			self.move_arm_server.set_succeeded(result)
+
 
     def loop(self):
         while not rospy.is_shutdown():

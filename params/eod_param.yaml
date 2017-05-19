@@ -1,8 +1,12 @@
 eod:
-  hs_interface: {fc: 50, n_tick: 40, r: 0.033, v_max: 7, v_min: 0}
-  physics: {l: 0.135, r: 0.033, n_tick: 40}
-  pid_dx: {Kd: 0, Ki: 5.854, Kp: 1.325, v_max: 7, v_min: 2.8}
-  pid_sx: {Kd: 0, Ki: 5.612, Kp: 1.540, v_max: 7, v_min: 2.8}
+  hs_interface: {fc: 50, n_tick: 40, r: 0.035, v_max: 7, v_min: 0}
+  physics: {l: 0.135, r: 0.035, n_tick: 40}
+  #pid_dx: {Kd: 0, Ki: 5.854, Kp: 1.325, v_max: 7, v_min: 2.8}
+  #pid_sx: {Kd: 0, Ki: 5.612, Kp: 1.540, v_max: 7, v_min: 2.8}
+  #pid_dx: {Kd: 0, Ki: 6.3011, Kp: 0, v_max: 7, v_min: 2.8}
+  #pid_sx: {Kd: 0, Ki: 5.8196, Kp: 0, v_max: 7, v_min: 2.8}
+  pid_dx: {Kd: 0, Ki: 17.5209, Kp: 3.9642, v_max: 7, v_min: 2.8}
+  pid_sx: {Kd: 0, Ki: 16.7952, Kp: 4.6093, v_max: 7, v_min: 2.8}
   #tf:
   # base_kinect: {dx: 0.05, dy: 0.0, dz: 0.06, roll: 0, pitch: 0, yaw: 0}
   loop_freq: {wheels_vel: 60, odom: 20, motor_ctrl: 10, default: 1}

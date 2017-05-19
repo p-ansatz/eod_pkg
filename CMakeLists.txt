@@ -15,9 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
   urdf
   xacro
   move_base
+  #actionlib_msgs
 )
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED actionlib_msgs)
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 
 include(${QT_USE_FILE})
 add_definitions(-DQT_NO_KEYWORDS)
@@ -100,9 +101,9 @@ add_message_files(
 # )
 
 ## Generate actions in the 'action' folder
-add_action_files(
-    DIRECTORY action
-    FILES MoveArm.action
+#add_action_files(
+#    DIRECTORY action
+#    FILES MoveArm.action
 #   Action1.action
 #   Action2.action
 # )
@@ -110,8 +111,9 @@ add_action_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
-   actionlib_msgs
+   #actionlib_msgs
    std_msgs
+   geometry_msgs
  )
 
 ################################################
@@ -148,7 +150,7 @@ catkin_package(
 #  LIBRARIES eod_pkg
 #  CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs
 #  DEPENDS system_lib
-   CATKIN_DEPENDS message_runtime actionlib_msgs
+   CATKIN_DEPENDS message_runtime #actionlib_msgs
 )
 
 ###########

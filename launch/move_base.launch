@@ -16,7 +16,7 @@
 		<!--rosparam file="$(find eod_pkg)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
 		<rosparam file="$(find eod_pkg)/params/costmap_common_params.yaml" command="load" ns="local_costmap" /-->
 		
-		<param name="controller_frequency" value="20" />
+		<param name="controller_frequency" value="15" />
 		<param name="planner_patience" value="10.0" />
 		<param name="controller_patience" value="30.0" />
 

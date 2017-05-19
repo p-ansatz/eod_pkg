@@ -1,8 +1,0 @@
-#goal definition
-Point p
-int16 cmd
----
-#result definition
-String res
----
-#feedback

@@ -4,7 +4,7 @@ local_costmap:
   robot_base_frame: /base_footprint
   
   # frequenza di aggiornamento della local costmap
-  update_frequency: 5.0
+  update_frequency: 3.0
   
   # frequenza con cui pubblica le informazioni
   publish_frequency: 2.0
@@ -23,7 +23,7 @@ local_costmap:
   resolution: 0.00254
   
   # tolleranza in sec nel ritardo delle trasformazioni di tf
-  tranform_tolerance: 5.0
+  transform_tolerance: 7.0
 
   # frequenza del loop di pianificazione
   planner_frequency: 0.5
