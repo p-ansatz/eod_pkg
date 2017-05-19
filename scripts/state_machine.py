@@ -73,8 +73,6 @@ class GotoTarget(State):
 		self.goal.target_pose.pose.orientation.y = target_point[4]
 		self.goal.target_pose.pose.orientation.z = target_point[5]
 		self.goal.target_pose.pose.orientation.w = target_point[6]
-		
-		print self.goal
 
 		move_client1  = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 		move_client1.wait_for_server()
@@ -83,15 +81,14 @@ class GotoTarget(State):
 		move_client1.send_goal(self.goal)
 
 		move_client1.wait_for_result()
-		print('state: %d'%move_client1.get_state())
-		print('status: %s'%move_client1.get_goal_status_text())
+	
 		return self.results[move_client1.get_state()]
 
 	def extract_target_point(self):
 		# Get target point - read from file
 		lines = [line.rstrip('\n') for line in open('poses.txt')]
 		list_str = lines[0].split(" ") #lines[0] contiene la posa da raggiungere
-		#in_file.close()
+		
 		return map(float, list_str)
 
 
@@ -155,7 +152,6 @@ class GetObject(State):
 		# Get object point - read from file
 		lines = [line.rstrip('\n') for line in open('poses.txt')]
 		list_str = lines[1].split(" ") #lines[1] contiene la posa dall'oggetto
-		#in_file.close()
 
 		return map(float, list_str)
 

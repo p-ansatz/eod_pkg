@@ -15,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
   urdf
   xacro
   move_base
-  #actionlib_msgs
 )
 
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
@@ -106,12 +105,11 @@ add_message_files(
 #    FILES MoveArm.action
 #   Action1.action
 #   Action2.action
-)
+#)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
-   #actionlib_msgs
    std_msgs
    geometry_msgs
  )
@@ -150,7 +148,7 @@ catkin_package(
 #  LIBRARIES eod_pkg
 #  CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs
 #  DEPENDS system_lib
-   CATKIN_DEPENDS message_runtime #actionlib_msgs
+   CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -175,8 +173,6 @@ include_directories(
 # add_dependencies(eod_pkg ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(tf_broadcaster src/tf_broadcaster.cpp)
-add_executable(odo src/odo.cpp)
 add_executable(find_object_tf src/find_object_tf.cpp)
 
 ## Add cmake target dependencies of the executable
@@ -184,8 +180,6 @@ add_executable(find_object_tf src/find_object_tf.cpp)
 # add_dependencies(eod_pkg_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries( tf_broadcaster ${catkin_LIBRARIES} )
-target_link_libraries( odo ${catkin_LIBRARIES} )
 target_link_libraries( find_object_tf ${QT_LIBRARIES} ${catkin_LIBRARIES} )
 
 

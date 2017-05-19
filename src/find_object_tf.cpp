@@ -54,25 +54,6 @@ public:
 						poseCam.getOrigin().x(), poseCam.getOrigin().y(), poseCam.getOrigin().z(),
 						poseCam.getRotation().x(), poseCam.getRotation().y(), poseCam.getRotation().z(), poseCam.getRotation().w());
 
-/*				broadcaster.sendTransform(
-					tf::StampedTransform(
-						tf::Transform(tf::Quaternion(0, 0, 0, 1), tf::Vector3(0.30, 0.0, 0.0)),
-						ros::Time::now(), objectFrameId.c_str(), "goal_frame")
-				);
-
-				geometry_msgs::PoseStamped goal_frame_pose;
-		    	goal_frame_pose.header.stamp = ros::Time::now();
-		    	goal_frame_pose.header.frame_id = "goal_frame";
-			    goal_frame_pose.pose.position.x = 0.0;
-			    goal_frame_pose.pose.position.y = 0.0;
-			    goal_frame_pose.pose.position.z = 0.0;  
-			    goal_frame_pose.pose.orientation.x = 0.0;
-			    goal_frame_pose.pose.orientation.y = 0.0;
-			    goal_frame_pose.pose.orientation.z = 0.0;
-			    goal_frame_pose.pose.orientation.w = 1.0;
-
-			    geometry_msgs::PoseStamped object_pose;
-				tfListener_.transformPose(mapFrameId_.c_str(), goal_frame_pose, object_pose);*/
 
 				// pubblicazione della posa sul topic objects_stamped_poses
 				geometry_msgs::PoseStamped object_pose;
