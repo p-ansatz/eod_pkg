@@ -10,10 +10,10 @@ from geometry_msgs.msg import PoseStamped
 
 class ObjectDetector():
 	def __init__(self):
-		rospy.init_node('object_detector')
+		rospy.init_node('object_detector', log_level=rospy.INFO)
 
 		# ------ PARAMETRI ------
-		# frequenza del loop (
+		# frequenza del loop ,		
 		self.freq = rospy.get_param('eod/loop_freq/default', 10)
 		self.rate = rospy.Rate(self.freq)
 
@@ -35,25 +35,29 @@ class ObjectDetector():
 
 	def object_callback(self, msg):
 			self.msg = msg
-			x = msg.position.x
-			y = msg.position.y
-			z = msg.position.z
-			rx = msg.orientation.x
-			ry = msg.orientation.y
-			rz = msg.orientation.z
-			rw = msg.orientation.w
+			x = msg.pose.position.x
+			y = msg.pose.position.y
+			z = msg.pose.position.z
+			rx = msg.pose.orientation.x
+			ry = msg.pose.orientation.y
+			rz = msg.pose.orientation.z
+			rw = msg.pose.orientation.w
 
 			self.fifo_list.popleft()	
 			self.fifo_list.append([x,y,z,rx,ry,rz,rw])
 
-			place_goal = check_object()
+			place_goal = self.check_object()
 			
-			if self.good_place_goal:
+			if self.good_place_goal and (not global_area.target_flag):
 				self.good_place_goal = False
+				global_area.target_flag = True
+				
+				out_file = open('target.txt','w')
+				out_file.write(" ".join(str(x) for x in place_goal))
+				out_file.close()
+				
 				global_area.modify_target_point(place_goal)
 				global_area.abort_move()
-
-
 	
 	def check_object(self):
 

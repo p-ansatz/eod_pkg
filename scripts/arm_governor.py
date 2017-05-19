@@ -6,7 +6,7 @@ from eod_pkg.msg import MoveArmGoal, MoveArmAction, MoveArmResult
 from eod_pkg.msg import ArmPoseGoal, ArmPoseAction, ArmPoseResult
 from eod_pkg.msg import ArmClawGoal, ArmClawAction, ArmClawResult
 
-from std_msgs.msg import String, Int16
+from std_msgs.msg import String, Int16, Bool
 from geometry_msgs.msg import Point
 
 class ArmGovernor():
@@ -14,12 +14,12 @@ class ArmGovernor():
 		rospy.init_node('arm_governor')	
 
 		# ------ PARAMETRI ------
-    	# frequenza del loop 
-        self.fq = rospy.get_param('/eod/loop_freq/default')
-        self.rate = rospy.Rate(self.freq)
+		# frequenza del loop 
+		self.fq = rospy.get_param('/eod/loop_freq/default')
+		self.rate = rospy.Rate(self.fq)
 
 		# ----- AZIONI ------
-		self.move_arm_server = actionlib.SimpleActionServer('move_arm', MoveArmAction, move_arm_callback, False)
+		self.move_arm_server = actionlib.SimpleActionServer('move_arm', MoveArmAction, self.move_arm_callback, False)
 		self.move_arm_server.start()
 		self.pose_client  = actionlib.SimpleActionClient('arm_pos', ArmPoseAction)
 		self.pose_client.wait_for_server()

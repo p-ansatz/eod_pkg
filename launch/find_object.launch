@@ -6,7 +6,7 @@
 		<param name="gui" value="true" type="bool"/>
 		<param name="settings_path" value="/home/toto/ROS/kinetic/eod_ws/src/eod_pkg/params/find_object.ini" type="str"/>
 		<param name="subscribe_depth" value="true" type="bool"/>
-		<param name="objects_path" value="" type="str"/>
+		<param name="objects_path" value="/home/suse/ros_ws/catkin_ws/src/eod_pkg/objects" type="str"/>
 		<param name="object_prefix" value="object" type="str"/>
 		
 		<remap from="rgb/image_rect_color" to="camera/rgb/image_rect_color"/>
@@ -14,11 +14,11 @@
 		<remap from="depth_registered/camera_info" to="camera/depth/camera_info"/>
 	</node>
 	
-	<!-- Example of tf synchronisation with the objectsStamped message -->
+	<!-- Example of tf synchronisation with the objectsStamped message >
 	<node name="find_object_tf" pkg="eod_pkg" type="find_object_tf" output="screen">
 		<param name="map_frame_id" value="/map" type="string"/>
 		<param name="object_prefix" value="object" type="str"/>
-	</node>
+	</node-->
 
 	<!-- fake some tf frames for the example /map -> /odom -> /base_link -> /camera_link -->
 	<node pkg="tf" type="static_transform_publisher" name="base_to_camera_tf" 

@@ -106,7 +106,7 @@ add_message_files(
 #    FILES MoveArm.action
 #   Action1.action
 #   Action2.action
-# )
+)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
